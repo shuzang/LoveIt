@@ -266,28 +266,8 @@
   }
 
   @import "../_partial/_post/code";
-  @import "../_partial/_post/admonition";
-
-  .mermaid {
-    width: 100%;
-    margin: 3% auto;
-    text-align: center;
-
-    @import "../_mermaid/neutral/index";
-
-    .dark-theme & {
-      @import "../_mermaid/dark/index";
-    }
-  }
-
   @import "../_aplayer/dark.scss";
 
-  .echarts {
-    width: 100%;
-    height: 30rem;
-    margin: 3% auto;
-    text-align: center;
-  }
 
   .bilibili {
     position: relative;
