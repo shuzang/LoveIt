@@ -46,7 +46,7 @@
 {{- $options := dict "targetPath" "css/style.min.css" "outputStyle" "compressed" "enableSourceMap" true -}}
 {{- if fileExists "config/css/_custom.scss" -}}
     {{- $options = dict "includePaths" (slice "config/css") | merge $options -}}
-    {{- $res := resources.Get "css/custom-style.scss" | toCSS $options -}}
+    {{- $res := resources.Get "css/custom.scss" | toCSS $options -}}
     <link rel="stylesheet" href="{{ $res.RelPermalink }}">
 {{- else -}}
     {{- $res := resources.Get "css/style.scss" | toCSS $options -}}
