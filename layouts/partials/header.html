@@ -1,5 +1,8 @@
 {{- /* Desktop navbar */ -}}
 <nav class="navbar">
+    {{ if (and .IsPage (not .Params.notsb)) }}
+        <div class="top-scroll-bar"></div>
+    {{ end }}
     <div class="navbar-container">
         <div class="navbar-header animated bounceIn">
             <a href="{{ .Site.BaseURL }}">
@@ -20,6 +23,9 @@
 
 {{- /* Mobile navbar */ -}}
 <nav class="navbar-mobile">
+    {{ if (and .IsPage (not .Params.notsb)) }}
+        <div class="top-scroll-bar"></div>
+    {{ end }}
     <div class="navbar-container">
         <div class="navbar-header">
             <div class="navbar-header-title animated bounceIn">

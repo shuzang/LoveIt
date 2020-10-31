@@ -286,6 +286,12 @@ jQuery(function($) {
         }
     };
 
+    _Blog.topScrollbar = function() {
+        $(window).scroll(function(){
+            $(".top-scroll-bar").attr("style", "width: " + ($(this).scrollTop() / ($(document).height() - $(this).height()) * 100) + "%; display: block;");
+        });
+    }
+
     $(document).ready(() => {
         _Blog.toggleMobileMenu();
         _Blog.toggleTheme();
@@ -298,5 +304,6 @@ jQuery(function($) {
         _Blog.countdown();
         _Blog.typeit();
         _Blog.toc();
+        _Blog.topScrollbar();
     });
 });
