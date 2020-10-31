@@ -3,7 +3,7 @@
     {{- if eq .Site.Params.home_mode "post" -}}
         <div class="page">
             {{- /* Profile */ -}}
-            {{- partial "home/profile.html" . -}}
+            {{- partial "home_profile.html" . -}}
 
             {{- /* Paginate */ -}}
             {{- $paginator := where .Site.RegularPages "Type" "posts" -}}
@@ -22,6 +22,6 @@
     {{- /* Home mode [other] */ -}}
     {{- else -}}
         {{- /* Profile */ -}}
-        {{- partial "home/profile.html" . -}}
+        {{- partial "home_profile.html" . -}}
     {{- end -}}
 {{- end -}}
