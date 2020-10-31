@@ -7,35 +7,24 @@
 
         {{- /* Meta */ -}}
         <div class="post-meta">
-            <div class="post-meta-main">
-                {{- $author := .Params.author | default .Site.Author.name -}}
-                {{- $author_link := .Params.author_link | default .Site.Author.link | default .Site.BaseURL -}}
-                <a class="author" href="{{ $author_link }}" rel="author" target="_blank">
-                    <i class="fas fa-user-circle fa-fw"></i>{{ $author }}
-                </a>&nbsp;
-                {{- with .Params.categories -}}
-                    <span class="post-category">
-                        {{- T "included" -}}&nbsp;
-                        {{- range . -}}
-                            {{- $name := . -}}
-                            {{- with $.Site.GetPage "taxonomy" (printf "categories/%s" $name) | default ($.Site.GetPage "taxonomy" (printf "categories/%s" ($name | urlize))) -}}
-                                <i class="far fa-folder fa-fw"></i><a href="{{ .Permalink }}">{{ $name | humanize }}</a>&nbsp;
-                            {{- end -}}
+            {{- $publish_date := .PublishDate.Format (.Site.Params.dateFormatToUse | default "2006-01-02") -}}
+            <i class="far fa-calendar-alt fa-fw"></i>{{- T "publish" -}}&nbsp;<time datetime={{ $publish_date }}>{{ $publish_date }}</time>&nbsp;
+            <i class="fas fa-pencil-alt fa-fw"></i>{{ T "wordCount" .WordCount }}&nbsp;
+            {{- if eq (getenv "HUGO_ENV") "production" | and .Site.Params.valine.enable | and .Site.Params.valine.visitor -}}
+                <span id="{{ .RelPermalink | relURL }}" class="leancloud_visitors" data-flag-title="{{ .Title }}">
+                    <i class="far fa-eye fa-fw"></i>{{ T "pageviews" | safeHTML }}
+                </span>&nbsp;
+            {{- end -}}
+            {{- with .Params.categories -}}
+                <span class="post-category">      
+                    {{- range . -}}
+                        {{- $name := . -}}
+                        {{- with $.Site.GetPage "taxonomy" (printf "categories/%s" $name) | default ($.Site.GetPage "taxonomy" (printf "categories/%s" ($name | urlize))) -}}
+                            <i class="far fa-folder fa-fw"></i>{{- T "included" -}}&nbsp;<a href="{{ .Permalink }}">{{ $name | humanize }}</a>&nbsp;
                         {{- end -}}
-                    </span>
-                {{- end -}}
-            </div>
-            <div class="post-meta-other">
-                {{- $publish_date := .PublishDate.Format (.Site.Params.dateFormatToUse | default "2006-01-02") -}}
-                <i class="far fa-calendar-alt fa-fw"></i><time datetime={{ $publish_date }}>{{ $publish_date }}</time>&nbsp;
-                <i class="fas fa-pencil-alt fa-fw"></i>{{ T "wordCount" .WordCount }}&nbsp;
-                <i class="far fa-clock fa-fw"></i>{{ T "readingTime" .ReadingTime }}&nbsp;
-                {{- if eq (getenv "HUGO_ENV") "production" | and .Site.Params.valine.enable | and .Site.Params.valine.visitor -}}
-                    <span id="{{ .RelPermalink | relURL }}" class="leancloud_visitors" data-flag-title="{{ .Title }}">
-                        <i class="far fa-eye fa-fw"></i>{{ T "pageviews" | safeHTML }}
-                    </span>&nbsp;
-                {{- end -}}
-            </div>
+                    {{- end -}}
+                </span>
+            {{- end -}}
         </div>
 
         {{- /* Featured image */ -}}
@@ -77,68 +66,73 @@
         </div>
 
         {{- /* Footer */ -}}
+        {{- $author := .Params.author | default .Site.Author.name -}}
         {{- $modify_date := .Lastmod.Format (.Site.Params.dateFormatToUse | default "2006-01-02") -}}
-        <div class="post-footer" id="post-footer">
-            <div class="post-info">
-                <div class="post-info-line">
-                    <div class="post-info-mod">
+        <div class="post-copyright" id="post-footer">          
+            <p class="copyright-item">
+                <span>{{ T "author" }}:&nbsp;</span>
+                <span>{{ $author }}</span>
+            </p>
+
+            <p class="copyright-item">
+                <span>{{ T "update" }}:&nbsp;</span>
+                <span>{{ $modify_date }}</span>
+            </p>
+
+            <p class="copyright-item">
+                {{- if and ( .Param "socialShare" ) (gt (len (.Param "share")) 0) -}}
+                    <span>{{ T "share" }}:&nbsp;</span>
+                    <span>
+                        {{- partial "share.html" . -}}
+                    </span>
+                {{- end -}}
+            </p>
+
+            <p class="copyright-item">
+                {{- if .Params.license -}}
+                    <span>{{- T "license" -}}:&nbsp;</span>
+                    <span>
+                        {{- .Params.license | safeHTML -}}
+                    </span>
+                {{- end -}}                
+            </p>
+
+            <p class="copyright-item">
+                {{- if .Site.Params.linkToMarkdown -}}
+                    {{- with .OutputFormats.Get "markdown" -}}
                         <span>
-                            {{- printf (T "lastMod") $modify_date -}}
+                            <a class="link-to-markdown" href="{{ .Permalink }}" target="_blank">
+                                {{- T "seeMarkDown" -}}
+                            </a>
                         </span>
-                    </div>
-                    <div class="post-info-license">
-                        {{- if .Params.license -}}
-                            <span>
-                                {{- printf (T "license") .Params.license | safeHTML -}}
-                            </span>
-                        {{- end -}}
-                    </div>
-                </div>
-                <div class="post-info-line">
-                    <div class="post-info-md">
-                        {{- if .Site.Params.linkToMarkdown -}}
-                            {{- with .OutputFormats.Get "markdown" -}}
-                                <span>
-                                    <a class="link-to-markdown" href="{{ .Permalink }}" target="_blank">
-                                        {{- T "seeMarkDown" -}}
-                                    </a>
-                                </span>
-                            {{- end -}}
-                        {{- end -}}
-                    </div>
-                    <div class="post-info-share">
-                        {{- if and ( .Param "socialShare" ) (gt (len (.Param "share")) 0) -}}
-                            <span>
-                                {{- partial "share.html" . -}}
-                            </span>
-                        {{- end -}}
-                    </div>
-                </div>
-            </div>
-        
-            <div class="post-info-more">
-                <section>
-                    {{- with .Params.tags -}}
-                        {{- range . -}}
-                            <span class="tag">
-                                <a href="{{ "tags/" | absURL }}{{ . | urlize }}/"><i class="fas fa-tag fa-fw"></i>&nbsp;{{ . }}</a>&nbsp;
-                            </span>
-                        {{- end -}}
                     {{- end -}}
-                </section>
-                <section>
-                    <span><a href="javascript:window.history.back();">{{ T "back" }}</a></span>&nbsp;|&nbsp;<span><a href="{{ .Site.BaseURL }}">{{ T "home" }}</a></span>
-                </section>
-            </div>
+                {{- end -}}               
+            </p>
+        </div>
+        <br>
+
+        <div class="post-info-more">
+            <section>
+                {{- with .Params.tags -}}
+                    {{- range . -}}
+                        <span class="tag">
+                            <a href="{{ "tags/" | absURL }}{{ . | urlize }}/"><i class="fas fa-tag fa-fw"></i>&nbsp;{{ . }}</a>&nbsp;
+                        </span>
+                    {{- end -}}
+                {{- end -}}
+            </section>
+            <section>
+                <span><a href="javascript:window.history.back();">{{ T "back" }}</a></span>&nbsp;|&nbsp;<span><a href="{{ .Site.BaseURL }}">{{ T "home" }}</a></span>
+            </section>
+        </div>
         
-            <div class="post-nav">
-                {{- if .PrevInSection -}}
-                    <a href="{{ .PrevInSection.Permalink }}" class="prev" rel="prev" title="{{ .PrevInSection.Title }}"><i class="fas fa-angle-left fa-fw"></i>{{ .PrevInSection.Title }}</a>
-                {{- end -}}
-                {{ if .NextInSection }}
-                    <a href="{{ .NextInSection.Permalink }}" class="next" rel="next" title="{{ .NextInSection.Title }}">{{ .NextInSection.Title }}<i class="fas fa-angle-right fa-fw"></i></a>
-                {{- end -}}
-            </div>
+        <div class="post-nav">
+            {{- if .PrevInSection -}}
+                <a href="{{ .PrevInSection.Permalink }}" class="prev" rel="prev" title="{{ .PrevInSection.Title }}"><i class="fas fa-angle-left fa-fw"></i>{{ .PrevInSection.Title }}</a>
+            {{- end -}}
+            {{ if .NextInSection }}
+                <a href="{{ .NextInSection.Permalink }}" class="next" rel="next" title="{{ .NextInSection.Title }}">{{ .NextInSection.Title }}<i class="fas fa-angle-right fa-fw"></i></a>
+            {{- end -}}
         </div>
 
         {{- /* Comment */ -}}

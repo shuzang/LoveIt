@@ -58,6 +58,9 @@ other = "Contents"
 [publish]
 other = "published on"
 
+[update]
+other = "Updated on"
+
 [included]
 other = "included in"
 
@@ -68,7 +71,7 @@ other = "about {{ .Count }} words"
 other = "{{ .Count }} min"
 
 [pageviews]
-other = "<span class=leancloud-visitors-count></span> pageviews"
+other = "<span class=leancloud-visitors-count></span> views"
 
 [author]
 other = "Author"
@@ -77,7 +80,7 @@ other = "Author"
 other = "The article was updated on %s"
 
 [license]
-other = "Published under the %s license"
+other = "License"
 
 [back]
 other = "Back"

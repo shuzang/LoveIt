@@ -1,10 +1,5 @@
 <footer class="footer">
     <div class="copyright">
-        {{- /* Hugo and LoveIt */ -}}
-        <div class="copyright-line">
-            {{- printf (T "powered") `<a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a>` | safeHTML }} | {{ T "theme" }}<a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
-        </div>
-
         <div class="copyright-line">
             {{- /* Copyright year */ -}}
             <i class="far fa-copyright fa-fw"></i>
@@ -18,13 +13,12 @@
 
             {{- /* Author */ -}}
             {{- with .Site.Author.name -}}
-                <span class="author" itemprop="copyrightHolder">&nbsp;<a href="{{ $.Site.Author.link | default $.Site.BaseURL }}" target="_blank">{{ . }}</a></span>
+                <span class="author" itemprop="copyrightHolder">&nbsp;<a href="{{ $.Site.Author.link | default $.Site.BaseURL }}" target="_blank">{{ . }}</a> | </span>
             {{- end -}}
+            
+            {{- /* Hugo and LoveIt */ -}}
+            {{- printf (T "powered") `<a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a>` | safeHTML }} & <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt</a>
 
-            {{- /* License */ -}}
-            {{- with .Site.Params.license -}}
-                &nbsp;|&nbsp;<span class="license">{{ . | safeHTML }}</span>
-            {{- end -}}
 
             {{- /* ICP */ -}}
             {{- with .Site.Params.icp -}}

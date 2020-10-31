@@ -58,6 +58,9 @@ other = "目录"
 [publish]
 other = "发布于"
 
+[update]
+other = "更新于"
+
 [included]
 other = "收录于"
 
@@ -77,10 +80,10 @@ other = "作者"
 other = "本文于 %s 更新"
 
 [license]
-other = "采用 %s 协议发布"
+other = "版权证书"
 
 [seeMarkDown]
-other = "阅读原始文档"
+other = "原始文档"
 
 [back]
 other = "返回"
